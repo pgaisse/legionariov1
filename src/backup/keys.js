@@ -4,7 +4,7 @@ module.exports = {
         connectionLimit: 10,
         host: 'localhost',
         user: 'root',
-        password: 'patoch',
+        password: 'Patoch-2202',
         //database: 'db_links'
         database: 'db_aliaga',
         dateStrings:true,

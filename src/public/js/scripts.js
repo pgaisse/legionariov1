@@ -1,7 +1,13 @@
-/*!
-* Start Bootstrap - Business Frontpage v5.0.9 (https://startbootstrap.com/template/business-frontpage)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-business-frontpage/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
+// Seleccionamos el sidebar
+const sidebar = document.getElementById('sidebar');
+sidebar.style.right = '-250px';  // Ocultar el sidebar
+
+// Detectamos el evento de scroll
+window.onscroll = function() {
+  if (window.scrollY > 770) {  // Si el scroll es mayor que 200px
+    sidebar.style.right = '0';  // Mostrar el sidebar
+  } else {
+    sidebar.style.right = '-250px';  // Ocultar el sideba
+    
+  }
+};

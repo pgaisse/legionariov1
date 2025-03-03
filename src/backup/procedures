@@ -1,0 +1,24 @@
+drop procedure if EXISTS `InsertProduct`;
+DELIMITER //
+
+CREATE PROCEDURE InsertProduct(
+    IN in_name VARCHAR(100),
+    IN in_text VARCHAR(500),
+    IN in_price INT,
+    IN in_picture VARCHAR(200)
+)
+BEGIN
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+    BEGIN
+        ROLLBACK;
+    END;
+    
+    START TRANSACTION;
+    
+    INSERT INTO products (name, text, price, picture)
+    VALUES (in_name, in_text, in_price, in_picture);
+    
+    COMMIT;
+END //
+
+DELIMITER ;

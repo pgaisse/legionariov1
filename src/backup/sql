@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS `db_aliaga`.`products` (
+  `id_product` INT NOT NULL AUTO_INCREMENT,
+  `name` VARCHAR(100) NOT NULL,
+  `text` VARCHAR(500) NOT NULL,
+  `price` VARCHAR(45) NULL,
+  `picture` VARCHAR(200) NULL,
+  PRIMARY KEY (`id_product`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+INSERT INTO products (`name`, `text`, `price`, `picture`) VALUES
+('Barra Fija', 'Sistema fijo para la distribución precisa de productos químicos.', NULL, '11.jpeg'),
+('Barra Hidráulica', 'Barra con tecnología hidráulica avanzada.', NULL, '10.jpeg'),
+('Barra para Moto', 'Diseñada para su uso en vehículos motorizados.', NULL, '3.jpeg'),
+('Nebulizador con Sensores', 'Ajusta la distribución en tiempo real con sensores.', NULL, '2.jpeg'),
+('Aplicaciones Foliares Automatizadas', 'Tecnología avanzada para aplicación sobre hojas.', NULL, '1.png');
+
+
+CREATE TABLE IF NOT EXISTS `db_aliaga`.`users` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `nombre` VARCHAR(85) NOT NULL,
+  `password` VARCHAR(200) NOT NULL,
+  `user` VARCHAR(45) NOT NULL,
+  `type` INT NOT NULL,
+  PRIMARY KEY (`id`))
+ENGINE = InnoDB;
+
+
+INSERT INTO `db_aliaga`.`users` (`nombre`, `password`, `user`, `type`)  
+VALUES ('Patricio', 'patoch-2202', 'pgaisse', 1);
+
+
+CREATE TABLE IF NOT EXISTS `db_aliaga`.`carousel` (
+  `id_carousel` INT NOT NULL AUTO_INCREMENT,
+  `title` VARCHAR(50) NOT NULL,
+  `text` VARCHAR(550) NOT NULL,
+  `picture` VARCHAR(200) NULL,
+  PRIMARY KEY (`id_carousel`))
