@@ -64,7 +64,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(multer({
   storage,
-  limits: { fileSize: 10000000 },
+  limits: { fileSize: 50000000 },
   fileFilter: (req, file, cb) => {
     const filetypes = /jpeg|png|jpg|webp/
     const minetype = filetypes.test(file.mimetype);

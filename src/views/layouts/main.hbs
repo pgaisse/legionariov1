@@ -11,7 +11,7 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
         <!-- Bootstrap icons-->
- 
+        <link href="css/styles.css" rel="stylesheet" type="text/css">
   
     </head>
     <body>
@@ -20,16 +20,15 @@
         {{>carousel}}
         {{>message}}
         
-        <div class="container-fluid bg-dark p-0">
+        <div class="container-fluid p-0">
             <div class="row">
-                <div class="float-left"  >
+                <div class="float-left" >
                     {{{ body }}}
                 </div>
-                <div class="float-right position-fixed " style="right: -20px; top: 7%;width: auto" >
+                <div class="float-right position-fixed " style="right: -20px; top: 15%;width: auto" >
                     {{>sidebar}}
                 </div>
             </div>
-            <div class="row container-fluid"></div>
         </div>
         
             

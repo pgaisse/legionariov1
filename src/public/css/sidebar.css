@@ -10,8 +10,11 @@
     width: var(--sidebar-width);
     border-radius: 1em 1em 1em 1em;
     margin-left: auto;
-    background: linear-gradient(135deg, #100f0f 0%, var(--main-color) 100%);
+    background: var(--bg-color-sidebar);
+    color: var(--text-color-sidebar);
     transition: all 0.3s ease;
+    
+    box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.3);
     
 }
 
@@ -36,7 +39,7 @@
 
 
 .sidebar-link {
-    color: #a0a3bd;
+    color: var(--text-color-sidebar);
     transition: all 0.2s ease;
     border-radius: 8px;
     margin: 4px 16px;

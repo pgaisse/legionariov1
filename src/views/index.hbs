@@ -1,4 +1,37 @@
 <style>
+  .gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    padding: 20px;
+    width: 100%;
+  }
+
+  #content {
+    background: #1e1e1e;
+    margin: 10px;
+    padding: 10px;
+    border-radius: 8px;
+    width: 100%;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .card:hover {
+    transform: scale(1.05);
+  }
+
+  .card img {
+    width: 100%;
+    height: auto;
+    border-radius: 5px;
+  }
+
+  .info {
+    margin-top: 5px;
+    font-size: 12px;
+  }
+
   .bd-placeholder-img {
     font-size: 1.125rem;
     text-anchor: middle;
@@ -27,409 +60,222 @@
       border-radius: 0.3rem;
     }
   }
+
+  body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    text-align: center;
+  }
+
+  header video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+  }
+
+  .overlay {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+  }
+
+  .overlay h1 {
+    font-size: 3rem;
+    margin: 0;
+  }
+
+  .overlay p {
+    font-size: 1.2rem;
+  }
+
+  .btn {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+
+  .section {
+    padding: 40px;
+    text-align: center;
+  }
+
+  .grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    margin-top: 20px;
+  }
+
+  .card {
+    /* Otras opciones: #333333, #1e293b, #064e3b */
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(255, 255, 255, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.2);
+  }
+
+  .card h3 {
+    color: #4CAF50;
+  }
 </style>
+<div class="container-fluid my-5">
+    <div class="d-flex flex-wrap justify-content-between">
+        <!-- Tarjetas repetidas -->
+        {{#each data}}
+        <div class="card m-3" style="flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px;">
+            <div class="row g-0">
+                <div class="col-md-4 d-flex align-items-center">
+                    <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="img-fluid rounded-start" style="width: 100%;">
+                </div>
+                <div class="col-md-8">
+                    <div class="card-body">
+                        <h5 class="card-title"><b>{{this.title}}</b></h5>
+                        <p class="card-text">{{this.text}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+</div>
 
-
-    <div class="b-example-divider bg-dark"></div>
+<div class="b-example-divider"></div>
 <div class=" text-secondary px-4 py-5 text-center">
   <div class="py-5">
-     <img class="d-block mx-auto mb-4" src="assets/logo_l.png" alt="Legionario Logo" width="200" />
-     
-    <h1 class="display-5 fw-bold text-white">Automatización Inteligente para la Agricultura</h1>
+    <img class="d-block mx-auto mb-4" src="assets/logo_l.png" alt="Legionario Logo" width="200" />
+
+    <h1 class="display-5 fw-bold" style="color: var(--text-color)">Mecatrónica al servicio de la agricultura</h1>
     <div class="col-lg-6 mx-auto">
       <p class="fs-5 mb-4">
-        Optimizamos la aplicación de productos químicos en la agricultura con tecnología avanzada. 
-        Reduce costos, ahorra tiempo y mejora la eficiencia con nuestros sistemas de automatización de última generación.
+        Optimización de las aplicaciones de agroquímicos, con sistemas electrónicos robustos y preparados para resistir
+        las más duras condiciones en los campos.
+        Reduce costos, ahorra tiempo y mejora la eficiencia con nuestros sistemas de mecatrónicos.
       </p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-          <a href="/products"  class="btn btn-primary btn-lg px-4 me-sm-3">
-            Ver Productos
-          </a>
-          <a href="/contact"  class="btn btn-outline-secondary btn-lg px-4">
-            Contacto
-          </a>
+        <a href="/products" class="btn btn-primary btn-lg px-4 me-sm-3">
+          Soluciones
+        </a>
+        <a href="/contact" class="btn btn-outline-secondary btn-lg px-4">
+          Contáctanos
+        </a>
       </div>
     </div>
   </div>
 </div>
- <div class="b-example-divider"></div>
+<div class="b-example-divider"></div>
 
 
--<!--<style>
-    body { font-family: 'Arial', sans-serif; background-color: #f4f4f4; margin:
-    0; } .card-container { display: flex; flex-wrap: wrap; justify-content:
-    space-around; } .card { width: 100%; } /* Ajuste para que las tarjetas
-    ocupen todo el ancho */ .card-img { max-width: 100%; height: auto; } /*
-    Asegura que la imagen sea responsiva */ .card-body { display: flex;
-    flex-direction: column; justify-content: space-between; } /* Para alinear el
-    botón */ .card-body a { align-self: flex-start; background-color: #939597;
-    color: #fff; padding: 10px 15px; text-decoration: none; border-radius: 4px;
-    margin-top: 10px; } .titulo-principal { text-align: center; font-size:
-    2.8em; font-weight: bold; color: #fff; text-shadow: 2px 2px 4px rgba(0, 0,
-    0, 0.5); background: linear-gradient(to right, #818585, #808b90); padding:
-    20px; border-radius: 10px; margin-bottom: 30px; text-transform: uppercase;
-    letter-spacing: 3px; }
-  </style>
-<ul>
-    <li>
-        <a href="#section1">Importancia de nuestra agricultura</a>
-    </li>
-        <li>
-        <a href="#section2">Amenazas</a>
-    </li>
-        <li>
-        <a href="#section3">Tecnologías</a>
-    </li>
-    
-</ul>
-
-  <section id="section1"> <br> <br><br>
-
-    <h1 class="titulo-principal">Importancia de nuestra agricultura</h1>
-    <div class="card-container">
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/sa.webp"
-              class="card-img"
-              alt="Seguridad Alimentaria"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Seguridad Alimentaria</h5>
-              <p class="card-text">
-                <b>Población Mundial:</b>
-                La agricultura es la principal fuente de alimentos para una
-                población mundial que supera los 8 mil millones de personas. Se
-                estima que para el año 2050, la población mundial alcanzará los
-                9.7 mil millones, lo que exigirá un aumento significativo en la
-                producción de alimentos.
-                <br />
-                <b>Malnutrición:</b>
-                A pesar de los avances, millones de personas en todo el mundo
-                sufren de malnutrición. La agricultura sostenible y la
-                distribución equitativa de alimentos son esenciales para
-                combatir el hambre y la malnutrición.</p>
-
-              <a href="seguridad_alimentaria.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/de.webp"
-              class="card-img"
-              alt="Desarrollo Económico"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Desarrollo Económico</h5>
-              <p class="card-text"><b>Empleo:</b>
-                La agricultura es una de las principales fuentes de empleo a
-                nivel mundial, especialmente en países en desarrollo.
-                Proporciona medios de vida a millones de familias rurales y
-                contribuye a la reducción de la pobreza.<br />
-                <b>PIB:</b>
-                El sector agrícola contribuye significativamente al Producto
-                Interno Bruto (PIB) de muchos países. En países en desarrollo,
-                la agricultura puede representar una parte importante de la
-                economía nacional.
-                <br />
-
-                <b>Comercio:</b>
-                El comercio de productos agrícolas es una actividad económica
-                importante a nivel mundial. Los países exportadores de productos
-                agrícolas generan ingresos significativos y contribuyen al
-                comercio internacional.</p>
-              <a href="desarrollo_economico.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/sam.webp"
-              class="card-img"
-              alt="Sostenibilidad Ambiental"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Sostenibilidad Ambiental</h5>
-              <p class="card-text">
-                <b>Uso de la Tierra:</b>
-                La agricultura utiliza una gran proporción de la superficie
-                terrestre mundial. Las prácticas agrícolas sostenibles son
-                esenciales para conservar los recursos naturales y proteger el
-                medio ambiente.
-                <br />
-                <b>Recursos Hídricos:</b>
-                La agricultura es uno de los mayores consumidores de agua dulce.
-                El uso eficiente del agua y la gestión sostenible de los
-                recursos hídricos son fundamentales para la agricultura.
-                <br />
-                <b>Cambio Climático:</b>
-                La agricultura es vulnerable al cambio climático y también
-                contribuye a las emisiones de gases de efecto invernadero. La
-                adopción de prácticas agrícolas climáticamente inteligentes es
-                crucial para mitigar el cambio climático y adaptarse a sus
-                impactos.
-              </p>
-              <a href="sostenibilidad_ambiental.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3" style="max-width: 540px;">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/iag.webp"
-              class="card-img"
-              alt="Indicadores Adicionales"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Indicadores Adicionales</h5>
-              <p class="card-text">
-                <b>Inversión en Investigación y Desarrollo:</b>
-                La inversión en investigación agrícola es fundamental para
-                desarrollar nuevas tecnologías y prácticas que mejoren la
-                productividad y la sostenibilidad.
-                <br />
-                <b>Acceso a la Tecnología:</b>
-                El acceso a tecnologías agrícolas modernas, como la agricultura
-                de precisión y la biotecnología, puede aumentar la eficiencia y
-                la productividad.
-                <br />
-
-                <b>Políticas Agrícolas:</b>
-                Las políticas gubernamentales que apoyan la agricultura
-                sostenible y la seguridad alimentaria son esenciales para el
-                desarrollo del sector.
-              </p>
-              <a href="indicadores_adicionales.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
+<!--<header>
+    <div class="overlay">
+      <h1>{{title}}</h1>
+      <p>{{text}}</p>
+      <a href="#contacto" class="btn">Contáctanos</a>
     </div>
-  </section>
+    <video autoplay loop muted playsinline poster="img/{{picture}}">
+      <source src='uploads/vid/v1.mp4' type="video/mp4">
+      Tu navegador no soporta videos.
+    </video>
+  </header>-->
+<!--<div class="container w-50 ">
+  {{#each data}}
+  {{#ifCond type 1}}
+  <div class="card bg-dark text-white ">
+    <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="card-img" >
+    <div class="card-img-overlay p-5">
+      <h5 class="card-title">{{title}}</h5>
+      <p class="card-text">This is a wider card with supporting text below as a natural lead-in to additional content.
+        This content is a little bit longer.</p>
+    </div>
+  </div>
+  {{/ifCond}}
+  {{/each}}
+</div>-->
 
-  <section id="section2"><br> <br><br>
-    <h1 class="titulo-principal">Amenazas</h1>
+<!--
+<section class="section">
+  <h2>Nuestras Soluciones</h2>
+  <div class="grid">
+    <div class="card">
+      <h3>Monitoreo Remoto</h3>
+      <p>Controla tus cultivos en tiempo real con sensores avanzados.</p>
+    </div>
+    <div class="card">
+      <h3>Automatización de Riego</h3>
+      <p>Optimiza el uso del agua con sistemas de riego inteligente.</p>
+    </div>
+    <div class="card">
+      <h3>Analítica de Datos</h3>
+      <p>Utiliza datos para mejorar la productividad y reducir costos.</p>
+    </div>
+  </div>
+</section>-->
 
-    <div class="card-container">
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/plagas.webp" class="card-img" alt="Plagas" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Plagas de Insectos</h5>
-              <p class="card-text">Las plagas de insectos representan una
-                amenaza constante para la agricultura, caracterizándose por su
-                capacidad de causar daños directos al alimentarse de las
-                plantas, o indirectos, al transmitir enfermedades. Suelen ser
-                más activas durante la primavera y el verano. Un manejo adecuado
-                de insecticidas selectivos, el monitoreo constante y el Manejo
-                Integrado de Plagas (MIP) pueden hacer frente a esta amenaza,
-                minimizando la dependencia de los químicos y protegiendo la
-                biodiversidad.</p>
-              <a href="plagas.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/malezas.webp" class="card-img" alt="Malezas" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Malezas</h5>
-              <p class="card-text">Las malezas son plantas no deseadas que
-                compiten con los cultivos por recursos esenciales. Un manejo
-                adecuado de herbicidas selectivos, la aplicación en el momento
-                oportuno y la labranza reducida pueden controlar eficazmente las
-                malezas, minimizando el impacto ambiental y protegiendo los
-                cultivos.</p>
-              <a href="malezas.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/funji.webp" class="card-img" alt="Enfermedades" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Enfermedades Fúngicas y Bacterianas</h5>
-              <p class="card-text">Las enfermedades de las plantas, causadas por
-                hongos, bacterias o virus, pueden propagarse rápidamente. El uso
-                de fungicidas y bactericidas preventivos, la rotación de
-                cultivos y la siembra de variedades resistentes son estrategias
-                clave para controlar estas enfermedades, reduciendo la necesidad
-                de químicos y protegiendo la salud de las plantas.</p>
-              <a href="enfermedades.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/sequia.webp" class="card-img" alt="Sequías" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Sequías</h5>
-              <p class="card-text">Las sequías, caracterizadas por la falta de
-                agua, pueden dañar o destruir los cultivos. El uso de polímeros
-                retenedores de agua y antitranspirantes puede ayudar a los
-                cultivos a resistir la sequía, complementando otras estrategias
-                de manejo del agua y reduciendo las pérdidas.</p>
-              <a href="sequias.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/heladas.webp" class="card-img" alt="Heladas" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Heladas</h5>
-              <p class="card-text">Las heladas, especialmente las tardías de
-                primavera, pueden dañar o matar las plantas jóvenes. El uso de
-                protectores contra heladas puede proteger a los cultivos de los
-                daños causados por las bajas temperaturas, complementando otras
-                medidas de protección y asegurando la supervivencia de las
-                plantas.</p>
-              <a href="heladas.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/suelosp.webp" class="card-img" alt="Suelos pobres" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Suelos Pobres</h5>
-              <p class="card-text">Los suelos pobres, que carecen de los
-                nutrientes esenciales, pueden limitar el crecimiento de las
-                plantas. La aplicación adecuada de fertilizantes químicos y
-                enmiendas del suelo puede corregir las deficiencias de
-                nutrientes y mejorar la fertilidad del suelo, complementando
-                otras prácticas sostenibles y asegurando la productividad a
-                largo plazo.</p>
-              <a href="suelos.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
+
+
+
+
+<div class="container-sm">
+  {{#if user}}
+  <h3>
+    Agregar Contenido
+  </h3><br />
+  <form class="row g-3" method="POST" action="/add_content" enctype="multipart/form-data">
+    <div class="input-group mb-3">
+
+      <input type="file" class="form-control" name="picture" id="picture">
+      <label class="input-group-text" for="inputGroupFile02">Upload</label>
     </div>
 
-  </section>
-
-  <section id="section3"><br> <br><br>
-
-    <h1 class="titulo-principal">Tecnologías</h1>
-    <div class="card-container">
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/aapp.webp"
-              class="card-img"
-              alt="Agricultura de Precisión"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Agricultura de Precisión</h5>
-              <p class="card-text">Con GPS y sensores, aplicamos fertilizantes y
-                pesticidas solo donde se necesitan, evitando el desperdicio y
-                reduciendo costos.</p>
-              <a href="agricultura_precision.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/trac.webp"
-              class="card-img"
-              alt="Tractores Automatizados"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Tractores Automatizados</h5>
-              <p class="card-text">Tractores con sistemas de guiado y sensores
-                aplican productos de forma exacta. Boquillas especiales detectan
-                malezas y aplican herbicidas solo a ellas.</p>
-              <a href="tractores_auto.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img
-              src="img/md.webp"
-              class="card-img"
-              alt="Monitoreo con Drones"
-            />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Monitoreo con Drones</h5>
-              <p class="card-text">Drones con cámaras revisan grandes áreas de
-                cultivo desde el aire, detectando problemas a tiempo y
-                permitiendo aplicar soluciones precisas.</p>
-              <a href="drones_monitoreo.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card mb-3">
-        <div class="row no-gutters">
-          <div class="col-md-4">
-            <img src="img/iot.webp" class="card-img" alt="Gestión de Datos" />
-          </div>
-          <div class="col-md-8">
-            <div class="card-body">
-              <h5 class="card-title">Gestión de Datos</h5>
-              <p class="card-text">Programas informáticos analizan datos del
-                clima y los cultivos, ayudando a tomar mejores decisiones sobre
-                cuándo y cómo actuar.</p>
-              <a href="gestion_datos.html">Más información</a>
-            </div>
-          </div>
-        </div>
-      </div>
+    <div class="input-group mb-3">
+      <select class="form-select" name="type" aria-label="Seleccionar Plantilla">
+        <option value="1" selected>Plantilla 1</option>
+        <option value="1">plantilla 1</option>
+        <option value="2">plantilla 2</option>
+        <option value="3">plantilla 3</option>
+      </select>
     </div>
-  </section>
--->
+    <div class="input-group mb-3">
+      <span class="input-group-text" id="basic-addon1">Título</span>
+      <input type="text" class="form-control" name="title" id="name" placeholder="Nombre Producto" aria-label="Nombre"
+        aria-describedby="basic-addon1">
+    </div>
+
+    <div class="input-group">
+      <span class="input-group-text">Contenido</span>
+      <textarea class="form-control" name="content" aria-label="With textarea"></textarea>
+    </div>
+
+    <div class="input-group">
+      <button type="submit" class="btn btn-primary mb-3">Agregar</button>
+    </div>
+
+
+  </form>
+
+  {{/if}}
+</div>

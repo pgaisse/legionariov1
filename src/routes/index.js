@@ -27,20 +27,25 @@ router.use(async (req, res, next) => {
     }
 });
 
-router.get('/', async (req, res) => {
+router.get('', async (req, res) => {
     try {
-        const genAI = new GoogleGenerativeAI(process.env.API_KEY);
-        const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+     //   const genAI = new GoogleGenerativeAI(process.env.API_KEY);
+     //   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
-        const prompt = "crea una seccion que able acerca de la tecnología en la agricultura, como está cambiando y mejorandola, cuales son los beneficios y ventajas. se breve y entrega en ingles y entrega el texto de manera formal y sin hablar de mas, no añadas ninguna letra o simbolo que no corresponda";
+     //   const prompt = "crea una seccion que able acerca de la tecnología en la agricultura, como está cambiando y mejorandola, cuales son los beneficios y ventajas. se breve y entrega en ingles y entrega el texto de manera formal y sin hablar de mas, no añadas ninguna letra o simbolo que no corresponda";
 
-        const result = await model.generateContent(prompt);
-        const content = result.response.text();
-        res.render('index', { content });
+     //   const result = await model.generateContent(prompt);
+     //   const content = result.response.text();
+     console.log("ESTO ES INDEX")
+        const results= await pool.query("select * from content");
+        console.log(results);
+        res.render('index', { data: results });
+        
 
     }
     catch (error) {
-        res.render('index');
+        console.log(error)
+        res.status(404).send('<h1>Página no encontrada</h1>');
     }
 
 });
@@ -68,7 +73,7 @@ router.get('/contact', async (req, res) => {
 
 router.get('/products', async (req, res) => {
     if (req.query.id) {
-        pool.query(`delete from products where id_product=${req.query.id}`)
+        await pool.query(`delete from products where id_product=${req.query.id}`)
     }
 
     const sql = "SELECT * FROM products";
@@ -101,8 +106,8 @@ router.post('/products', validateProduct, async (req, res) => {
             console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
             const query = `CALL InsertProduct('${req.body.name}', '${req.body.text}', ${req.body.price}, '${imageName}');`;
             console.log(query);
-            pool.query(query);
-            req.flash('success', 'Recinto agregado satisfactoriamente');
+            await pool.query(query);
+            req.flash('success', 'producto agregado satisfactoriamente');
             res.redirect('/products');
         }
 
@@ -150,7 +155,7 @@ router.post('/add_carousel', validateCarousel, isAdmin, async (req, res) => {
                 text,
                 picture
             };
-            pool.query(`INSERT INTO carousel SET ? `, newCarousel)
+           await pool.query(`INSERT INTO carousel SET ? `, newCarousel)
         req.flash('success', "Datos agregados correctamente");
         res.redirect('/add_carousel');
         }
@@ -162,5 +167,33 @@ router.post('/add_carousel', validateCarousel, isAdmin, async (req, res) => {
 }
 
 });
+
+router.post('/add_content', isAdmin, async (req, res) => {
+    const {title, content, type}=req.body;
+    try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            req.flash('message', errors.array().map(error => error.msg));
+            res.redirect('/');
+        }
+        else {
+            const imageName = await helpers.resizeImage(req.file);
+            console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
+            const query = `CALL InsertContent('${title}', '${content}', ${type}, '${imageName}');`;
+            console.log(query);
+            await pool.query(query);
+            req.flash('success', 'Contenido agregado satisfactoriamente');
+            res.redirect('/');
+        }
+
+
+    }
+    catch (error) {
+        console.log(error);
+        res.render('index');
+    }
+});
+
+
 
 module.exports = router;

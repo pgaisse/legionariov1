@@ -96,7 +96,7 @@ helpers.resizeImage = (file) => {
 helpers.resizeImageCarousel = async (file) => {
   try {
     const minWidth = 1500; // Resolución mínima de ancho
-    const minHeight = 800; // Resolución mínima de alto
+    const minHeight = 600; // Resolución mínima de alto
     const unicid = uuid.v4();
     let name = unicid + ".webp";
     const imageName = name;
@@ -118,7 +118,7 @@ helpers.resizeImageCarousel = async (file) => {
 console.log(outputPath);
 
     await sharp(file.buffer)
-      .resize(1500, 800, {
+      .resize(minWidth, minHeight, {
         fit: sharp.fit.cover,
         position: sharp.strategy.entropy,
       })

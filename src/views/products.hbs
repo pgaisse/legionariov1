@@ -1,75 +1,46 @@
-<main>
+<style>
+  
+</style>
 
+<div class="container p-2">
+  <div class="card  mt-3">
 
-  </div>
-
-
-  <div class="album py-5 bg-light">
-    <div class="container">
-      <div class="card  mt-3">
-
-        <div class="card-body ">
-          <h3 class="card-title">Nuestros Productos</h3>
-          <h6 class="card-subtitle mb-2 text-muted">Soluciones para una agricultura más eficiente</h6>
-          <p class="card-text">
-            Ofrecemos una línea especializada de equipos para la automatización de la aplicación de productos químicos
-            en la
-            agricultura:
-
-            Barra fija: Diseñada para aplicaciones precisas y uniformes.
-
-            Barra hidráulica: Ajustable para mayor versatilidad y eficiencia.
-
-            Barra para moto: Solución compacta y flexible para diferentes terrenos.
-
-            Nebulizador con sensores: Control automático para una aplicación precisa y eficiente.
-
-            Aplicaciones foliares: Diseñadas para maximizar la absorción y efectividad de los productos.
-
-            Cada uno de nuestros productos está diseñado para optimizar el uso de insumos, reducir desperdicios y
-            mejorar la
-            rentabilidad del negocio agrícola. Contáctanos para encontrar la mejor solución para tu campo.
-          </p>
-
-        </div>
+  
 
 
 
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-          {{#each data}}
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+      {{#each data}}
 
 
-          <div class="col">
-            <div class="card shadow-sm">
-              <img class="bd-placeholder-img card-img-top" width="100%" height="225"
-                src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}">
+      <div class="col">
+        <div class="card shadow-sm">
+          <img class="bd-placeholder-img card-img-top" width="100%" height="225"
+            src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}">
 
-              <div class="card-body">
-                <p class="card-title"><b>{{name}}</b></p>
-                <p class="card-text">{{text}}</p>
-                <div class="d-flex justify-content-between align-items-center">
-                  <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
-                    <a class="btn btn-sm btn-outline-secondary" href="\products?id={{id_product}}"
-                      style="text-decoration: none; color:crimson ;">Eliminar</a>
-                  </div>
-                  <!-- <small class="text-muted">9 mins</small>-->
-                </div>
+          <div class="card-body">
+            <p class="card-title"><b>{{name}}</b></p>
+            <p class="card-text">{{text}}</p>
+            <div class="d-flex justify-content-between align-items-center">
+              <div class="btn-group">
+                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
+                <a class="btn btn-sm btn-outline-secondary" href="\products?id={{id_product}}"
+                  style="text-decoration: none; color:crimson ;">Eliminar</a>
               </div>
+              <!-- <small class="text-muted">9 mins</small>-->
             </div>
           </div>
-          {{/each}}
-
         </div>
       </div>
+      {{/each}}
+
     </div>
+  </div>
 
-</main>
-
-{{#if user}}
+  {{#if user}}
 
 <!--Creation Section-->
-<div class="container-sm">
+
 
 
   <h3>
@@ -103,5 +74,8 @@
 
 
   </form>
-</div>
+
 {{/if}}
+</div>
+
+

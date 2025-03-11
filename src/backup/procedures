@@ -22,3 +22,35 @@ BEGIN
 END //
 
 DELIMITER ;
+
+
+DROP PROCEDURE IF EXISTS `InsertContent`;
+DELIMITER //
+
+CREATE PROCEDURE InsertContent(
+    IN in_title VARCHAR(100),
+    IN in_content VARCHAR(500),
+    IN in_type INT,
+    IN in_picture VARCHAR(200)
+)
+BEGIN
+    -- Declarar el manejador de excepciones para capturar errores SQL
+    DECLARE EXIT HANDLER FOR SQLEXCEPTION 
+    BEGIN
+        -- Si ocurre un error, se hace rollback y se genera un error explícito
+        ROLLBACK;
+        SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = 'Error al insertar el contenido';
+    END;
+    
+    -- Comienza la transacción
+    START TRANSACTION;
+    
+    -- Inserción de datos en la tabla
+    INSERT INTO content(title, text, type, picture)
+    VALUES (in_title, in_content, in_type, in_picture);
+    
+    -- Si la inserción es exitosa, se confirma la transacción
+    COMMIT;
+END //
+
+DELIMITER ;
