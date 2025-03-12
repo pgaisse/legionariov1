@@ -1,5 +1,37 @@
 const { body, check } = require('express-validator');
 
+
+const validateContent = [
+  // Validación para el archivo de imagen (picture)
+  body('picture').custom((value, { req }) => {
+    if (!req.file || !req.file.originalname) {
+      throw new Error('Debes subir una imagen ');
+    }
+    return true;
+  }),
+
+  // Validación para el tipo (type)
+  body('type')
+    .isInt({ min: 1, max: 3 })
+    .withMessage('El tipo debe ser un valor entre 1 y 3 '),
+
+  // Validación para el título (title)
+  body('title')
+    .notEmpty()
+    .withMessage('El título es obligatorio ')
+    .isLength({ max: 255 })
+    .withMessage('El título no puede tener más de 255 caracteres '),
+
+  // Validación para el contenido (content)
+  body('content')
+    .notEmpty()
+    .withMessage('El contenido es obligatorio ')
+    .isLength({ min: 10 })
+    .withMessage('El contenido debe tener al menos 10 caracteres '),
+
+];
+
+
 const validateProduct = [
   body('name')
     .notEmpty().withMessage(' El nombre del producto es obligatorio')
@@ -74,4 +106,4 @@ const validateCarousel = [
     .isLength({ min: 10, max: 500 }).withMessage('La descripción debe tener al menos 10 caracteres y no puede superar los 500 caracteres.')
 ];
 
-module.exports = {validateProduct, validateSignup, validateCarousel};
+module.exports = {validateProduct, validateSignup, validateCarousel, validateContent};

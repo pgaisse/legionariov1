@@ -1,48 +1,45 @@
 <style>
-  
+
 </style>
 
-<div class="container p-2">
-  <div class="card  mt-3">
+<div class="container-fluid my-5">
+  <div class="d-flex flex-wrap justify-content-between">
 
-  
+    {{#each data}}
 
+    <div class="card shadow-sm m-3"
+      style="flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; border:none;">
+      <img class="bd-placeholder-img card-img-top" src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}"
+        style="object-fit: contain; max-width: 500px; margin-left: auto; margin-right: auto; ">
 
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-      {{#each data}}
-
-
-      <div class="col">
-        <div class="card shadow-sm">
-          <img class="bd-placeholder-img card-img-top" width="100%" height="225"
-            src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}">
-
-          <div class="card-body">
-            <p class="card-title"><b>{{name}}</b></p>
-            <p class="card-text">{{text}}</p>
-            <div class="d-flex justify-content-between align-items-center">
-              <div class="btn-group">
-                <button type="button" class="btn btn-sm btn-outline-secondary">Editar</button>
-                <a class="btn btn-sm btn-outline-secondary" href="\products?id={{id_product}}"
-                  style="text-decoration: none; color:crimson ;">Eliminar</a>
-              </div>
-              <!-- <small class="text-muted">9 mins</small>-->
-            </div>
+      <div class="card-body" style="margin-left: auto; margin-right: auto; ">
+        <p class="card-title"><b>{{title}}</b></p>
+        <p class="card-text">{{text}}</p>
+        {{#if ../user}}
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{id_product}}" data-name="{{title}}" data-text="{{text}}" data-picture="{{picture}}">Editar</button>
+            <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_product}}&name=products"
+              style="text-decoration: none;">Eliminar</a>
           </div>
+          <!-- <small class="text-muted">9 mins</small>-->
         </div>
+        {{/if}}
       </div>
-      {{/each}}
-
     </div>
+
+    {{/each}}
+
   </div>
 
-  {{#if user}}
+</div>
+
+{{#if user}}
 
 <!--Creation Section-->
 
 
-
+<div class="container-sm my-5">
   <h3>
     Agregar Contenido
   </h3><br />
@@ -75,7 +72,62 @@
 
   </form>
 
-{{/if}}
+  {{/if}}
 </div>
 
+<!-- MODAL  dE EDICION -->
+<div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="editModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="editForm" action="/update" method="POST" enctype="multipart/form-data">
+          <input type="hidden" id="id" name="id">
+           <input type="hidden" id="table" name="table" value="products">
+          <div class="mb-3">
+            <label for="title" class="form-label">Nombre</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+          </div>
+          <div class="mb-3">
+            <label for="text" class="form-label">Descripción</label>
+            <textarea class="form-control" id="text" name="text" rows="3" required></textarea>
+          </div>
+          <div class="mb-3">
+            <label for="picture" class="form-label">Imagen</label>
+            <input type="file" class="form-control" id="picture" name="picture">
+            <small class="form-text text-muted">Deje en blanco si no desea cambiar la imagen.</small>
+          </div>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const editModal = document.getElementById('editModal');
+  editModal.addEventListener('show.bs.modal', function (event) {
+    const button = event.relatedTarget; // Button that triggered the modal
+    const id = button.getAttribute('data-id');
+    const name = button.getAttribute('data-name');
+    const text = button.getAttribute('data-text');
+    const picture = button.getAttribute('data-picture');
+
+    // Update the modal's content
+    const modalTitle = editModal.querySelector('.modal-title');
+    const titleInput = editModal.querySelector('#title');
+    const textInput = editModal.querySelector('#text');
+    const pictureInput = editModal.querySelector('#picture');
+    const idInput = editModal.querySelector('#id');
+
+    modalTitle.textContent = `Editar Producto: ${name}`;
+    titleInput.value = name;
+    textInput.value = text;
+    pictureInput.value = ''; // Reset file input field
+    idInput.value = id;
+  });
+</script>
 

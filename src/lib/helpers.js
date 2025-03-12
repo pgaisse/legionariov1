@@ -23,12 +23,15 @@ helpers.matchPassword = async (password, savedPassword) => {
 
 
 
-helpers.resizeImage = (file) => {
+helpers.resizeImage = async (file, pathRoot,fit='cover') => {
   try {
 
+    const metadata = await sharp(file.buffer).metadata();
+    const width = metadata.width;
+    const height = metadata.height;
 
-    const resG_w = 1920;
-    const resG_h = 1080;
+    const resG_w = width;
+    const resG_h = height;
     const ResT = 300;
     const ResT_w = ResT;
     const ResT_h = Math.round(ResT_w * (resG_h / resG_w));
@@ -44,47 +47,36 @@ helpers.resizeImage = (file) => {
     let name = unicid + ".png";
     const imageName = name;
     console.log(imageName);
-
-    sharp(file.buffer).resize(resG_w, resG_h, { fit: 'cover' }).toBuffer().then((data) => {
-      fs.writeFileSync(path.join(__dirname, `../public/uploads/images/img_w/${name}`), data)
+    console.log("EL PATH ES: " + pathRoot + name);
+    sharp(file.buffer).resize(resG_w, resG_h, { fit: fit }).toBuffer().then((data) => {
+      fs.writeFileSync(path.join(__dirname, `../${pathRoot}img_w/${name}`), data)
     })
       .catch((err) => {
         console.error(`Error procesando la imagen: ${err.message}`);
+        throw new Error(err.message);
       });
 
-    sharp(file.buffer).resize(ResT_w, ResT_h, { fit: 'cover' }).toBuffer().then((data) => {
-      fs.writeFileSync(path.join(__dirname, `../public/uploads/images/img_t/thumb_${name}`), data)
+    sharp(file.buffer).resize(ResT_w, ResT_h, { fit: fit }).toBuffer().then((data) => {
+      fs.writeFileSync(path.join(__dirname, `../${pathRoot}img_t/thumb_${name}`), data)
     })
       .catch((err) => {
         console.error(`Error procesando la imagen: ${err.message}`);
+        throw new Error(err.message);
       });
 
-    sharp(file.buffer).resize(ResM_w, ResM_h, { fit: 'cover' }).toBuffer().then((data) => {
-      fs.writeFileSync(path.join(__dirname, `../public/uploads/images/img_m/${name}`), data)
+    sharp(file.buffer).resize(ResM_w, ResM_h, { fit: fit }).toBuffer().then((data) => {
+      fs.writeFileSync(path.join(__dirname, `../${pathRoot}img_m/${name}`), data)
     })
       .catch((err) => {
         console.error(`Error procesando la imagen: ${err.message}`);
+        throw new Error(err.message);
       });
-
-
-    //let buffer_w = sharp(buffer).resize(resG_w, resG_h, { fit: 'contain' }).toBuffer()
-
-
-
-
-
-
-    //const result = helpers.checkFile(path.join(__dirname, `../public/uploads/images/img_t/thumb_${unicid+".png"}`))
 
     return imageName;
-
-
-    // let unicid = uuid.v4();   
-
-
   }
   catch (e) {
     console.log("Error al guardar la imagen" + e)
+    throw new Error(e);
 
   }
 
@@ -93,12 +85,12 @@ helpers.resizeImage = (file) => {
 };
 
 
-helpers.resizeImageCarousel = async (file) => {
+helpers.resizeImageCarousel = async (file, pathRoot) => {
   try {
     const minWidth = 1500; // Resolución mínima de ancho
     const minHeight = 600; // Resolución mínima de alto
     const unicid = uuid.v4();
-    let name = unicid + ".webp";
+    let name = unicid + process.env.WEB_IMG_EXT;
     const imageName = name;
 
     console.log(`Imagen generada con nombre: ${imageName}`);
@@ -114,8 +106,8 @@ helpers.resizeImageCarousel = async (file) => {
     }
 
     // Si la imagen es válida, la redimensionamos
-    const outputPath = path.join(__dirname, '../public/img/carousel', name);
-console.log(outputPath);
+    const outputPath = path.join(__dirname, `../${pathRoot}${name}`);
+    console.log(outputPath);
 
     await sharp(file.buffer)
       .resize(minWidth, minHeight, {
@@ -130,18 +122,42 @@ console.log(outputPath);
 
   } catch (err) {
     console.log('Error al procesar la imagen:', err);
-    throw new Error('Error al procesar la imagen');
+    throw new Error(err);
   }
 };
 
-helpers.delFile = async (rows) => {
+helpers.delFile = async (name, pathRoot, single) => {
+  try {
+
+    if (!single) {
+      console.log("NO ES SINGLE")
+      fs.unlinkSync(path.join(__dirname, `../${pathRoot}img_w/${name}`));
+      fs.unlinkSync(path.join(__dirname, `../${pathRoot}img_t/thumb_${name}`));
+      fs.unlinkSync(path.join(__dirname, `../${pathRoot}img_m/${name}`));
+      console.log('The File has been deleted successfully');
+    }
+    else {
+      console.log("ES SINGLE")
+      fs.unlinkSync(path.join(__dirname, `../${pathRoot}${name}`));
+    }
+
+  }
+  catch (e) {
+    console.log('File no deleted' + e);
+    throw new Error(e);
+
+  }
+}
+/*
+helpers.delFile = async (rows, pathRoot) => {
   console.log(rows);
   try {
     rows.forEach(row => {
       Object.entries(row).forEach(([key, value]) => {
-        fs.unlinkSync(path.join(__dirname, `../public/uploads/images/img_w/${value}`));
-        fs.unlinkSync(path.join(__dirname, `../public/uploads/images/img_t/thumb_${value}`));
-        fs.unlinkSync(path.join(__dirname, `../public/uploads/images/img_m/${value}`));
+        fs.unlinkSync(path.join(__dirname, `../${pathRoot}${value}`));
+        console.log("EL PATH ES: " + pathRoot + value);
+        //fs.unlinkSync(path.join(__dirname, `../public/uploads/images/img_t/thumb_${value}`));
+        //fs.unlinkSync(path.join(__dirname, `../public/uploads/images/img_m/${value}`));
       });
     });
 
@@ -151,9 +167,12 @@ helpers.delFile = async (rows) => {
   }
   catch (e) {
     console.log('File no deleted' + e);
+    throw new Error(e);
 
   }
 }
+*/
+
 helpers.checkFile = async (path) => {
 
   const file = fs.existsSync(path)

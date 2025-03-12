@@ -4,11 +4,15 @@
     --main-color:  rgb(33, 37, 41);
 }
 
-
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+    }
+}
 
 .sidebar {
     width: var(--sidebar-width);
-    border-radius: 1em 1em 1em 1em;
+    border-radius: 0.1em 0.1em 0.1em 0.1em;
     margin-left: auto;
     background: var(--bg-color-sidebar);
     color: var(--text-color-sidebar);

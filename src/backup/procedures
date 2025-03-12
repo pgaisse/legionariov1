@@ -15,7 +15,7 @@ BEGIN
     
     START TRANSACTION;
     
-    INSERT INTO products (name, text, price, picture)
+    INSERT INTO products (title, text, price, picture)
     VALUES (in_name, in_text, in_price, in_picture);
     
     COMMIT;

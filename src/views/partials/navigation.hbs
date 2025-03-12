@@ -1,5 +1,6 @@
 <!-- Responsive navbar-->
-<nav class="navbar navbar-expand-lg w-100 fixed-top" style="background-color: var(--bg-color-navigationbar); color:var(--text-color-navigationbar)">
+<div class="container-fluid p-0">
+<nav class="navbar navbar-expand-lg w-100" style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4); background-color: var(--bg-color-navigationbar); color:var(--text-color-navigationbar)">
     <div class="container px-5 fs-6">
 
 
@@ -10,9 +11,9 @@
             aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link active fs-5" aria-current="page" href="/">Inicio</a></li>
-                <li class="nav-item "><a class="nav-link fs-5" href="/products">Productos</a></li>
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0" >
+                <li class="nav-item"><a class="nav-link active fs-5" aria-current="page" href="/" >Inicio</a></li>
+                <li class="nav-item "><a class="nav-link fs-5" href="/products" >Productos</a></li>
                 <li class="nav-item"><a class="nav-link fs-5" href="/about">Nosotros</a></li>
                 <li class="nav-item"><a class="nav-link fs-5" href="/contact">Contacto</a></li>
                 {{#if user}}
@@ -38,3 +39,4 @@
     </div>
     </div>
 </nav>
+</div>

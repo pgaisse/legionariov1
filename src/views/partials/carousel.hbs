@@ -1,78 +1,88 @@
-{{#if carouselImages}}
-<div id="carouselExampleCaptions" class="carousel slide bg-dark" data-bs-ride="carousel">
-  <div class="carousel-indicators mb-2">
+<div class="container-fluid w-100 mt-1 mx-0 p-0" style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4)">
+  {{#if carouselImages}}
 
-    {{#each carouselImages}}
-    {{#if @index}}
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}"
-      aria-label="Slide {{sum @index}}"></button>
-    {{else}}
-    <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}" class="active"
-      aria-current="true" aria-label="Slide {{sum @index}}"></button>
-    {{/if}}
+  <div id="carouselExampleCaptions" class="carousel slide bg-dark" data-bs-ride="carousel">
+    <div class="carousel-indicators mb-2">
+
+      {{#each carouselImages}}
+      {{#if @index}}
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}"
+        aria-label="Slide {{sum @index}}"></button>
+      {{else}}
+      <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}" class="active"
+        aria-current="true" aria-label="Slide {{sum @index}}"></button>
+      {{/if}}
 
 
-    {{/each}}
+      {{/each}}
+
+    </div>
+    <div class="carousel-inner">
+
+
+      {{#each carouselImages}}
+
+      {{#if @index}}
+      <div class="carousel-item">
+        <img src="/img/carousel/{{this.picture}}" class="d-block mx-auto" alt="{{this.picture}}"
+          style="object-fit: contain;" />
+
+        <div class="carousel-caption d-none d-md-block" style="background-color:rgba(0, 0, 0, 0.3);">
+
+          <h5>{{this.title}}</h5>
+          <p>{{this.text}} </p>
+
+        </div>
+      </div>
+      {{else}}
+      <div class="carousel-item active">
+        <img src="/img/carousel/{{this.picture}}" class="d-block mx-auto" alt="{{this.picture}}" />
+
+        <a id="command" href="/add_carousel" class="position-absolute text-white   "
+          style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em">
+          <i class="fa-solid fa-square-plus"></i> Agregar Imagen
+        </a>
+        <a id="command" href="/del?id={{id_carousel}}&name=carousel" class="position-absolute text-white   "
+          style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; ">
+          <i class="fa-solid fa-square-minus"></i> Eliminar Imagen
+        </a>
+        <div class="carousel-caption d-none d-md-block" style="background-color:rgba(0, 0, 0, 0.3);">
+          <h5>{{this.title}}</h5>
+          <p>{{this.text}}
+          </p>
+        </div>
+      </div>
+      {{/if}}
+      {{#if ../user}}
+      <a id="command" href="/add_carousel" class="position-absolute text-white   "
+        style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em">
+        <i class="fa-solid fa-square-plus"></i> Agregar Imagen
+      </a>
+      <a id="command" href="/del?id={{id_carousel}}&name=carousel" class="position-absolute text-white   "
+        style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; ">
+        <i class="fa-solid fa-square-minus"></i> Eliminar Imagen
+      </a>
+      {{/if}}
+      {{/each}}
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
+        data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+
+
+    </div>
+
 
   </div>
-  <div class="carousel-inner">
-
-
-    {{#each carouselImages}}
-
-    {{#if @index}}
-    <div class="carousel-item bg-dark">
-      <img src="/img/carousel/{{this.picture}}" class="d-block w-100 mx-auto" alt="{{this.picture}}" />
-      <a href="/add_carousel" class="position-absolute text-white fw-bold  " style="right: 370px; top: 8%">
-        <i class="fa-solid fa-square-plus"></i>
-      </a>
-      <a href="/del_carousel?id_carousel={{id_carousel}}" class="position-absolute text-white fw-bold  "
-        style="right: 350px; top: 8%">
-        <i class="fa-solid fa-square-minus"></i>
-      </a>
-      <div class="carousel-caption d-none d-md-block">
-
-        <h5>{{this.title}}</h5>
-        <p>{{this.text}} </p>
-
-      </div>
-    </div>
-    {{else}}
-    <div class="carousel-item active bg-dark">
-      <img src="/img/carousel/{{this.picture}}" class="d-block w-100 mx-auto" alt="{{this.picture}}" />
-
-      <a href="/add_carousel" class="position-absolute text-white fw-bold  " style="right: 370px; top: 8%">
-        <i class="fa-solid fa-square-plus"></i>
-      </a>
-      <a href="/del_carousel?id_carousel={{id_carousel}}" class="position-absolute text-white fw-bold  "
-        style="right: 350px; top: 8%">
-        <i class="fa-solid fa-square-minus"></i>
-      </a>
-      <div class="carousel-caption d-none d-md-block">
-        <h5>{{this.title}}</h5>
-        <p>{{this.text}}
-        </p>
-      </div>
-    </div>
-    {{/if}}
-
-    {{/each}}
-    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="visually-hidden">Next</span>
-    </button>
-
-
-  </div>
-
-
+  {{else}}
+  <a href="/add_carousel" class="position-absolute text-white   " style="right: 370px; top: 8%">
+    <i class="fa-solid fa-square-plus"></i> Agregar Imagen
+  </a>
+  {{/if}}
 </div>
-{{else}}
-<a href="/add_carousel" class="position-absolute text-white fw-bold  " style="right: 370px; top: 8%">
-  <i class="fa-solid fa-square-plus"></i> Agregar Imagen
-</a>
-{{/if}}
