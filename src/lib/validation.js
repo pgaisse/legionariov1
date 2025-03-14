@@ -19,14 +19,16 @@ const validateContent = [
   body('title')
     .notEmpty()
     .withMessage('El título es obligatorio ')
-    .isLength({ max: 255 })
-    .withMessage('El título no puede tener más de 255 caracteres '),
+    .isLength({ max: 100 })
+    .withMessage('El título no puede tener más de 100 caracteres '),
 
   // Validación para el contenido (content)
   body('content')
     .notEmpty()
     .withMessage('El contenido es obligatorio ')
-    .isLength({ min: 10 })
+    .isLength({ min: 10,
+      max: 400
+     })
     .withMessage('El contenido debe tener al menos 10 caracteres '),
 
 ];
@@ -41,7 +43,7 @@ const validateProduct = [
     .isFloat({ min: 0.01 }).withMessage(' El precio debe ser un número positivo'),
   body('text')
     .notEmpty().withMessage(' La descripción es obligatoria')
-    .isLength({ min: 10 }).withMessage(' La descripción debe tener al menos 10 caracteres'),
+    .isLength({ min: 10,  max: 400 }).withMessage(' La descripción debe tener al menos 10 caracteres'),
   body('picture').custom((value, { req }) => {
     if (!req.file) {
       throw new Error(' La imagen es obligatoria');

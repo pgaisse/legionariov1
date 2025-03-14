@@ -21,6 +21,22 @@ helpers.matchPassword = async (password, savedPassword) => {
   }
 };
 
+helpers.uploadvideo = async (file, pathRoot)=>{
+
+    // Si es un video, guardar el archivo en el disco
+    const videoName= Date.now() + path.extname(file.originalname);
+    console.log("Nombre Imagen: "+ videoName)
+    const outputFilePath = path.join(path.join(__dirname, `../public/uploads/vid/${videoName}`));
+    try{
+      fs.writeFileSync(outputFilePath, file.buffer)
+      return videoName;
+    }
+    catch(err){
+      console.log(err)
+        throw new Error("No se subió el Video")
+    }
+  
+}
 
 
 helpers.resizeImage = async (file, pathRoot,fit='cover') => {

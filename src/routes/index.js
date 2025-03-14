@@ -74,13 +74,16 @@ router.get('/contact', async (req, res) => {
 
 router.get('/products', async (req, res) => {
 
-    const sql = "SELECT * FROM products";
+
+    const sql1 = "SELECT * FROM products";
+    const sql2 = "SELECT * FROM videos";
 
     try {
 
-        const results = await pool.query(sql);
+        const results1 = await pool.query(sql1);
+        const results2 = await pool.query(sql2);
 
-        res.render('products', { data: results });
+        res.render('products', { data1: results1, data2: results2, hidePartial: true });
 
     }
     catch (error) {
@@ -91,22 +94,37 @@ router.get('/products', async (req, res) => {
 });
 
 router.post('/products', validateProduct, async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('message', errors.array().map(error => error.msg));
+        res.redirect('/products');
+    }
 
     try {
 
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            req.flash('message', errors.array().map(error => error.msg));
-            res.redirect('/products');
-        }
-        else {
+
+        if (req.file.mimetype.startsWith('image/')) {
+
+
+
             const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT);
             console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
-            const query = `CALL InsertProduct('${req.body.name}', '${req.body.text}', ${req.body.price}, '${imageName}');`;
+            const query = `CALL InsertProduct('${req.body.name}', '${req.body.text}', ${req.body.price}, '${imageName}', ${req.body.type});`;
             console.log(query);
             await pool.query(query);
             req.flash('success', 'producto agregado satisfactoriamente');
             res.redirect('/products');
+
+        }
+        else if (req.file.mimetype.startsWith('video/')) {
+            const videoName = await helpers.uploadvideo(req.file, process.env.ROOT_VIDEO);
+            const query = `insert into videos (title, text, picture, type) values ('${req.body.name}', '${req.body.text}', '${videoName}', ${req.body.type});`;
+            console.log(query);
+            await pool.query(query);
+            req.flash('success', 'video agregado satisfactoriamente');
+            res.redirect('/products');
+
+
         }
 
 
@@ -207,8 +225,9 @@ router.get('/del', async (req, res) => {
 
         const [results] = await pool.query(query);
         imageName = results.picture
-        let path = table === 'carousel' ? process.env.ROOT_CAROUSEL : process.env.ROOT_CONTENT;
-        const single = table === 'carousel' ? 1 : 0;
+        const path = table === 'carousel' ? process.env.ROOT_CAROUSEL : table === 'products' ? process.env.ROOT_CONTENT : process.env.ROOT_VIDEO;
+        const single = table === 'carousel' ? 1: table === 'products' ? 0 : 1;
+
         console.log(table, idField)
         const sql = `delete from ${table} where id_${idField}=${id}`;
         console.log("CONSULTA ", sql)
@@ -229,20 +248,20 @@ router.get('/del', async (req, res) => {
 /* UPDATE */
 
 router.post('/update', async (req, res) => {
-    const { title, text, id, table,fit } = req.body
+    const { title, text, id, table, fit } = req.body
     console.log(req.body)
     const idField = table.endsWith("s") ? table.slice(0, -1) : table;
-    const file = req.file?1:0;
+    const file = req.file ? 1 : 0;
     try {
         if (file) {
             const query = `select picture from ${table} where id_${idField}=${id}`;
             const [results] = await pool.query(query);
-            const picture= results.picture;
-            
-            const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT,fit);
+            const picture = results.picture;
+
+            const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT, fit);
             await helpers.delFile(picture, process.env.ROOT_CONTENT, 0);
             const sql = `update ${table} set title= '${title}', text='${text}', picture='${imageName}' where id_${idField}=${id}`;
-            
+
             await pool.query(sql);
 
         }

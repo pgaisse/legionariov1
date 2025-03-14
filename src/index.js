@@ -9,7 +9,7 @@ const { database } = require('./backup/keys');
 const bodyParser = require('body-parser');
 const uuid = require('uuid');
 const multer = require('multer');
-
+require('dotenv').config();
 const unicid = uuid.v4();
 const storage = multer.memoryStorage();
 
@@ -66,7 +66,7 @@ app.use(multer({
   storage,
   limits: { fileSize: 50000000 },
   fileFilter: (req, file, cb) => {
-    const filetypes = /jpeg|png|jpg|webp/
+    const filetypes = /jpeg|png|jpg|webp|mp4|mov|avi/
     const minetype = filetypes.test(file.mimetype);
     const extname = filetypes.test(path.extname(file.originalname))
     if (minetype && extname) {

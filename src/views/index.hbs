@@ -1,27 +1,32 @@
 {{#if data1}}
 <div class="container-fluid my-5">
-  <h1 class="text-center m-3"> Destacados</h1>
+  <h1 class="text-center mx-3 my-0"> Destacados</h1>
   <div class="d-flex flex-wrap justify-content-between">
     <!-- Tarjetas repetidas -->
     {{#each data1}}
-    <div class="card m-3" style="border:none; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px;">
+    <div class="card mt-1" style="border:none; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px;">
       <div class="row g-0">
         <div class="col-md-4 d-flex align-items-center">
           <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="img-fluid rounded-circle"
-            style="object-fit: contain; ">
+            style="max-width: 300px; object-fit: contain; ">
         </div>
         <div class="col-md-8">
-          <div class="card-body" >
+          <div class="card-body">
             <h5 class="card-title"><b>{{this.title}}</b></h5>
-            <p class="card-text">{{this.text}}</p>
+            <p class="card-text" style="height:300px;">{{this.text}}</p>
 
+            
+
+          </div>
+          <div class="card-body">
             <div class="btn-group">
-               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}" data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}"
+                data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
               <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_content}}&name=content"
                 style="text-decoration: none;">Eliminar</a>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -29,14 +34,15 @@
   </div>
 </div>
 {{/if}}
-
+<hr>
 {{#if data2}}
 <div class="container-fluid my-5">
-  <h1 class="text-center m-3"> Nuestros Partners</h1>
-  <div class="d-flex flex-wrap justify-content-between">
+  <h1 class="text-center mx-3"> Nuestros Partners</h1>
+  <div class="d-flex flex-wrap justify-content-between" style="background-color: rgba(255,255,255,0.5);">
     <!-- Tarjetas repetidas -->
     {{#each data2}}
-    <div class="card m-3" style="border:none; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; ">
+    <div class="card mx-3"
+      style="background-color: rgba(255,255,255,0.5);border:none; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; ">
       <div class="row g-0">
         <div class="col-12 d-flex justify-content-center">
           <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="img-fluid rounded-start"
@@ -44,12 +50,14 @@
         </div>
         <div class="col-12">
           <div class="card-body" style="margin-left: auto; margin-right: auto; max-width: 300px;">
-            <h5 class="card-title"><b>{{this.title}}</b></h5> 
+            <h5 class="card-title"><b>{{this.title}}</b></h5>
             <p class="card-text">{{this.text}}</p>
 
             <div class="btn-group">
-              
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}" data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
+
+              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}"
+                data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
               <a class="btn btn-sm btn-outline-secondary" href="/del?id={{id_content}}&name=content"
                 style="text-decoration: none;">Eliminar</a>
             </div>
@@ -63,8 +71,8 @@
 </div>
 {{/if}}
 
-
-<div class=" text-secondary px-4 py-5 my-5 text-center">
+<hr>
+<div class=" text-secondary px-4 py-5  text-center">
   <div class="py-5">
     <img class="d-block mx-auto mb-4" src="assets/logo_l.png" alt="Legionario Logo" width="200px" />
 
@@ -146,7 +154,7 @@
     titleInput.value = title;
     textInput.value = text;
     id_content.value = id;
-    pictureInput.value=picture;
+    pictureInput.value = picture;
   });
 </script>
 
@@ -168,13 +176,12 @@
         <option value="1" selected>Productos</option>
         <option value="1">Productos</option>
         <option value="2">Partner</option>
-        <option value="3">plantilla 3</option>
       </select>
     </div>
     <div class="input-group mb-3">
       <span class="input-group-text" id="basic-addon1">Título</span>
-      <input type="text" class="form-control" name="title" id="name" placeholder="Nombre Producto" aria-label="Nombre"
-        aria-describedby="basic-addon1">
+      <input type="text" class="form-control" name="title" id="name" placeholder="Titulo del Contenido"
+        aria-label="Nombre" aria-describedby="basic-addon1">
     </div>
 
     <div class="input-group">

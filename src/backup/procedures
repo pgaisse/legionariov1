@@ -5,7 +5,8 @@ CREATE PROCEDURE InsertProduct(
     IN in_name VARCHAR(100),
     IN in_text VARCHAR(500),
     IN in_price INT,
-    IN in_picture VARCHAR(200)
+    IN in_picture VARCHAR(200),
+    IN in_type VARCHAR(200)
 )
 BEGIN
     DECLARE EXIT HANDLER FOR SQLEXCEPTION 
@@ -15,8 +16,8 @@ BEGIN
     
     START TRANSACTION;
     
-    INSERT INTO products (title, text, price, picture)
-    VALUES (in_name, in_text, in_price, in_picture);
+    INSERT INTO products (title, text, price, picture, type)
+    VALUES (in_name, in_text, in_price, in_picture, in_type);
     
     COMMIT;
 END //

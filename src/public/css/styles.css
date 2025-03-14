@@ -6,7 +6,7 @@ Valriables
   --text-color: #222222;
   --bg-color-sidebar: #222222;
   --text-color-sidebar: #ffffff;
-  --bg-color-navigationbar: #4caf50;
+  --bg-color-navigationbar: #f8f9fa;
   --text-color-navigationbar: #ffffff;
   --bg-color-footer: #4caf50;
   --text-color-footer: #ffffff;
@@ -68,6 +68,11 @@ body{
   .bd-placeholder-img-lg {
     font-size: 3.5rem;
   }
+  video {
+    aspect-ratio: 1/1;
+    width: 200px;
+  }
+
 }
 
 @media (max-width: 767px) {
@@ -171,4 +176,16 @@ header video {
 
 .card h3 {
   color: #4CAF50;
+}
+
+
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important; /* Fondo negro con 50% de opacidad */
+}
+video {
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
+  aspect-ratio: 16/9;
 }
