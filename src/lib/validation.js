@@ -33,6 +33,25 @@ const validateContent = [
 
 ];
 
+const validateContact = [
+  body('name')
+    .notEmpty()
+    .withMessage('El nombre es requerido'),
+
+  body('email')
+    .notEmpty()
+    .withMessage('El correo es requerido')
+    .isEmail()
+    .withMessage('El correo no es válido'),
+
+  body('phone')
+    .notEmpty()
+    .withMessage('El número de teléfono es requerido'),
+
+  body('message')
+    .notEmpty()
+    .withMessage('El mensaje es requerido'),
+];
 
 const validateProduct = [
   body('name')
@@ -108,4 +127,4 @@ const validateCarousel = [
     .isLength({ min: 10, max: 500 }).withMessage('La descripción debe tener al menos 10 caracteres y no puede superar los 500 caracteres.')
 ];
 
-module.exports = {validateProduct, validateSignup, validateCarousel, validateContent};
+module.exports = {validateProduct, validateSignup, validateCarousel, validateContent, validateContact};

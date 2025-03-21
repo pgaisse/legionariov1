@@ -3,8 +3,13 @@ const router = express.Router();
 const pool = require('../database');
 const { body, matchedData, validationResult } = require('express-validator');
 const helpers = require('../lib/helpers');
-const { validateProduct, validateCarousel, validateContent } = require('../lib/validation'); // Importar validaciones
+const { validateProduct, validateCarousel, validateContent, validateContact } = require('../lib/validation'); // Importar validaciones
 const { isLoggedIn, isNLoggedIn, isAdmin } = require('../lib/auth');
+
+const { Resend } = require('resend');
+
+
+
 
 require('dotenv').config();
 
@@ -72,6 +77,49 @@ router.get('/contact', async (req, res) => {
 
 });
 
+router.post('/contact', validateContact, async (req, res) => {
+    console.log(req.body)
+    const { name, phone, email, message } = req.body
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('message', errors.array().map(error => error.msg));
+        res.redirect(req.get('referer') || '/');
+    }
+    else {
+
+        try {
+
+            const resend = new Resend(`${process.env.API_KEY_EMAIL}`);
+
+            await resend.domains.create({ name: 'legionariochile.cl' });
+            const data = await resend.emails.send({
+                from: 'raliaga@legionariochile.cl',
+                to: ['raliaga@legionariochile.cl'],
+                subject: `Consulta de ${name}`,
+                html: `
+            <ul>
+                <li>Numero de teléfono: ${phone}</li>
+                <li>Correo Electrónico: ${email}</li>
+            </ul>
+
+            <p><strong>Mensaje:
+            ${message}
+            </strong></p>`
+            });
+            console.log(data);
+            req.flash("success", "El Mensaje se ha enviado exitosamente")
+            res.redirect(req.get('referer') || '/');
+
+        }
+        catch (error) {
+            console.log(error);
+            req.flash("message", "El Mensaje no se envió")
+            res.redirect(req.get('referer') || '/');
+        }
+    }
+
+});
+
 router.get('/products', async (req, res) => {
 
 
@@ -99,42 +147,43 @@ router.post('/products', validateProduct, async (req, res) => {
         req.flash('message', errors.array().map(error => error.msg));
         res.redirect('/products');
     }
+    else {
 
-    try {
-
-
-        if (req.file.mimetype.startsWith('image/')) {
+        try {
 
 
+            if (req.file.mimetype.startsWith('image/')) {
 
-            const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT);
-            console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
-            const query = `CALL InsertProduct('${req.body.name}', '${req.body.text}', ${req.body.price}, '${imageName}', ${req.body.type});`;
-            console.log(query);
-            await pool.query(query);
-            req.flash('success', 'producto agregado satisfactoriamente');
-            res.redirect('/products');
+
+
+                const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT);
+                console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
+                const query = `CALL InsertProduct('${req.body.name}', '${req.body.text}', ${req.body.price}, '${imageName}', ${req.body.type});`;
+                console.log(query);
+                await pool.query(query);
+                req.flash('success', 'producto agregado satisfactoriamente');
+                res.redirect('/products');
+
+            }
+            else if (req.file.mimetype.startsWith('video/')) {
+                const videoName = await helpers.uploadvideo(req.file, process.env.ROOT_VIDEO);
+                const query = `insert into videos (title, text, picture, type) values ('${req.body.name}', '${req.body.text}', '${videoName}', ${req.body.type});`;
+                console.log(query);
+                await pool.query(query);
+                req.flash('success', 'video agregado satisfactoriamente');
+                res.redirect('/products');
+
+
+            }
+
 
         }
-        else if (req.file.mimetype.startsWith('video/')) {
-            const videoName = await helpers.uploadvideo(req.file, process.env.ROOT_VIDEO);
-            const query = `insert into videos (title, text, picture, type) values ('${req.body.name}', '${req.body.text}', '${videoName}', ${req.body.type});`;
-            console.log(query);
-            await pool.query(query);
-            req.flash('success', 'video agregado satisfactoriamente');
+        catch (error) {
+            console.log(error);
+            req.flash('message', 'Error al subir la imagen');
             res.redirect('/products');
-
-
         }
-
-
     }
-    catch (error) {
-        console.log(error);
-        req.flash('message', 'Error al subir la imagen');
-        res.redirect('/products');
-    }
-
 });
 
 
@@ -156,14 +205,16 @@ router.get('/add_carousel', isAdmin, async (req, res) => {
 
 // Seccion para agregar contenido de algunas seccions
 router.post('/add_carousel', validateCarousel, isAdmin, async (req, res) => {
-    try {
-        const errors = validationResult(req);
-        if (!errors.isEmpty()) {
-            req.flash('message', errors.array().map(error => error.msg));
-            res.redirect('/add_carousel');
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        req.flash('message', errors.array().map(error => error.msg));
+        res.redirect('/add_carousel');
 
-        }
-        else {
+    }
+    else {
+        try {
+
+
             const { title, text } = req.body;
             picture = await helpers.resizeImageCarousel(req.file, process.env.ROOT_CAROUSEL);
             console.log(picture)
@@ -177,24 +228,25 @@ router.post('/add_carousel', validateCarousel, isAdmin, async (req, res) => {
             res.redirect('/add_carousel');
         }
 
-    }
-    catch (error) {
-        req.flash('message', "La dimención de la imagen puede que no sea la adecuada min(1500x1000)");
-        res.redirect('/add_carousel');
-    }
 
+        catch (error) {
+            req.flash('message', "La dimención de la imagen puede que no sea la adecuada min(1500x1000)");
+            res.redirect('/add_carousel');
+        }
+    }
 });
 
 router.post('/add_content', validateContent, isAdmin, async (req, res) => {
     const { title, content, type } = req.body;
-    try {
-        const errors = validationResult(req);
-        console.log("errores:", JSON.stringify(errors, 2, null));
-        if (!errors.isEmpty()) {
-            req.flash('message', errors.array().map(error => error.msg));
-            res.redirect('/');
-        }
-        else {
+    const errors = validationResult(req);
+    console.log("errores:", JSON.stringify(errors, 2, null));
+    if (!errors.isEmpty()) {
+        req.flash('message', errors.array().map(error => error.msg));
+        res.redirect('/');
+    }
+    else {
+        try {
+
 
             const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT);
             console.log("ESTE ES EL NOMBRE DE LA IMAGEN: ", imageName);
@@ -206,10 +258,11 @@ router.post('/add_content', validateContent, isAdmin, async (req, res) => {
         }
 
 
-    }
-    catch (error) {
-        console.log(error);
-        res.render('index');
+        catch (error) {
+            console.log(error);
+            res.render('index');
+        }
+
     }
 });
 
@@ -226,7 +279,7 @@ router.get('/del', async (req, res) => {
         const [results] = await pool.query(query);
         imageName = results.picture
         const path = table === 'carousel' ? process.env.ROOT_CAROUSEL : table === 'products' ? process.env.ROOT_CONTENT : process.env.ROOT_VIDEO;
-        const single = table === 'carousel' ? 1: table === 'products' ? 0 : 1;
+        const single = table === 'carousel' ? 1 : table === 'products' ? 0 : 1;
 
         console.log(table, idField)
         const sql = `delete from ${table} where id_${idField}=${id}`;

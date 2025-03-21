@@ -1,4 +1,5 @@
 const express = require('express');
+const fs = require('fs');
 const path = require('path');
 const exphbs = require('express-handlebars');
 const flash = require('connect-flash');
@@ -12,10 +13,15 @@ const multer = require('multer');
 require('dotenv').config();
 const unicid = uuid.v4();
 const storage = multer.memoryStorage();
-
+const https = require('https');
 // Intializations
 const app = express();
 require('./lib/passport');
+
+const options = {
+  key: fs.readFileSync("/etc/letsencrypt/live/legionariochile.cl/privkey.pem"),
+  cert: fs.readFileSync("/etc/letsencrypt/live/legionariochile.cl/fullchain.pem")
+};
 
 // Settings
 app.set('port', process.env.PORT || 3800);
@@ -93,15 +99,17 @@ app.use(require('./routes/authentication'));
 // Public
 app.use(express.static(path.join(__dirname, 'public')));
 // Starting
-try {
-  app.listen(app.get('port'), () => {
-    console.log('Server is in port', app.get('port'));
-  });
 
-}
-catch (error) {
-  app.listen(app.get('port'), () => {
-    console.log('Server is in port', app.get('port'));
-  });
+// Iniciar servidor HTTPS
+https.createServer(options, app).listen(process.env.SSL_PORT, () => {
+  
+  console.log(`Servidor HTTPS corriendo en el puerto ${process.env.SSL_PORT}`);
+});
 
-}
+const http = require('http');
+http.createServer((req, res) => {
+  res.writeHead(301, { Location: `https://www.legionariochile.cl${req.url}` });
+  res.end();
+}).listen(80, () => {
+  console.log("Redirigiendo HTTP a HTTPS con www");
+});

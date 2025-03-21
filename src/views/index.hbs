@@ -15,9 +15,10 @@
             <h5 class="card-title"><b>{{this.title}}</b></h5>
             <p class="card-text" style="height:300px;">{{this.text}}</p>
 
-            
+
 
           </div>
+          {{#if user}}
           <div class="card-body">
             <div class="btn-group">
               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
@@ -27,6 +28,7 @@
                 style="text-decoration: none;">Eliminar</a>
             </div>
           </div>
+          {{/if}}
         </div>
       </div>
     </div>
@@ -52,7 +54,7 @@
           <div class="card-body" style="margin-left: auto; margin-right: auto; max-width: 300px;">
             <h5 class="card-title"><b>{{this.title}}</b></h5>
             <p class="card-text">{{this.text}}</p>
-
+{{#if user}}
             <div class="btn-group">
 
               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
@@ -61,6 +63,7 @@
               <a class="btn btn-sm btn-outline-secondary" href="/del?id={{id_content}}&name=content"
                 style="text-decoration: none;">Eliminar</a>
             </div>
+{{/if}}
           </div>
         </div>
       </div>
