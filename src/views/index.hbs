@@ -1,6 +1,6 @@
 {{#if data1}}
 <div class="container-fluid my-5">
-  <h1 class="text-center mx-3 my-0"> Destacados</h1>
+  <h4 class="mx-3 my-0"> Destacados</h4>
   <div class="d-flex flex-wrap justify-content-between">
     <!-- Tarjetas repetidas -->
     {{#each data1}}
@@ -18,7 +18,7 @@
 
 
           </div>
-          {{#if user}}
+          {{#if ../user}}
           <div class="card-body">
             <div class="btn-group">
               <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
@@ -38,48 +38,41 @@
 {{/if}}
 <hr>
 {{#if data2}}
-<div class="container-fluid my-5">
-  <h1 class="text-center mx-3"> Nuestros Partners</h1>
-  <div class="d-flex flex-wrap justify-content-between" style="background-color: rgba(255,255,255,0.5);">
-    <!-- Tarjetas repetidas -->
+<div class="container-fluid my-1">
+  <h4 class="mx-3">Nuestros Partners</h4>
+  <div class="d-flex flex-wrap" style="background-color: rgba(255,255,255,0.5); mt-0;">
     {{#each data2}}
-    <div class="card mx-3"
-      style="background-color: rgba(255,255,255,0.5);border:none; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; ">
-      <div class="row g-0">
-        <div class="col-12 d-flex justify-content-center">
-          <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="img-fluid rounded-start"
-            style="width: 300px; height: 300px; object-fit: contain;">
-        </div>
-        <div class="col-12">
-          <div class="card-body" style="margin-left: auto; margin-right: auto; max-width: 300px;">
-            <h5 class="card-title"><b>{{this.title}}</b></h5>
-            <p class="card-text">{{this.text}}</p>
-{{#if user}}
-            <div class="btn-group">
-
-              <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-                data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}"
-                data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
-              <a class="btn btn-sm btn-outline-secondary" href="/del?id={{id_content}}&name=content"
-                style="text-decoration: none;">Eliminar</a>
-            </div>
-{{/if}}
+    <div class="card mx-3" style="background-color: rgba(255,255,255,0.5); border: none; flex-grow: 1; min-width: 250px; display: flex; flex-direction: row;">
+      <div class="d-flex align-items-center justify-content-center" style="max-width: 300px;">
+        <img src="uploads/images/img_m/{{this.picture}}" alt="{{this.title}}" class="img-fluid rounded-start" style="width: 100%; height: auto; object-fit: contain;">
+      </div>
+      <div class="flex-grow-1">
+        <div class="card-body" style="margin-left: 1rem; margin-right: 1rem; max-width: 300px;">
+          <h5 class="card-title"><b>{{this.title}}</b></h5>
+          <p class="card-text">{{this.text}}</p>
+          {{#if ../user}}
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+              data-bs-target="#editModal" data-id="{{id_content}}" data-title="{{this.title}}"
+              data-text="{{this.text}}" data-picture="{{this.picture}}">Editar</button>
+            <a class="btn btn-sm btn-outline-secondary" href="/del?id={{id_content}}&name=content"
+              style="text-decoration: none;">Eliminar</a>
           </div>
+          {{/if}}
         </div>
       </div>
     </div>
-
     {{/each}}
   </div>
 </div>
 {{/if}}
 
 <hr>
-<div class=" text-secondary px-4 py-5  text-center">
+<div class=" text-secondary px-4 pt-1  text-center">
   <div class="py-5">
-    <img class="d-block mx-auto mb-4" src="assets/logo_l.png" alt="Legionario Logo" width="200px" />
+    <img class="d-block mx-auto mb-2" src="assets/logo_l.png" alt="Legionario Logo" width="200px" />
 
-    <h1 class="display-5 fw-bold" style="color: var(--text-color)">Mecatrónica al servicio de la agricultura</h1>
+    <h4 class="display-5 fw-bold" style="color: var(--text-color)">Mecatrónica al servicio de la agricultura</h4>
     <div class="col-lg-6 mx-auto">
       <p class="fs-5 mb-4">
         Optimización de las aplicaciones de agroquímicos, con sistemas electrónicos robustos y preparados para resistir

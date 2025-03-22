@@ -101,6 +101,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Starting
 
 // Iniciar servidor HTTPS
+/*
 https.createServer(options, app).listen(process.env.SSL_PORT, () => {
   
   console.log(`Servidor HTTPS corriendo en el puerto ${process.env.SSL_PORT}`);
@@ -112,4 +113,18 @@ http.createServer((req, res) => {
   res.end();
 }).listen(80, () => {
   console.log("Redirigiendo HTTP a HTTPS con www");
-});
+});*/
+
+// Starting
+try {
+  app.listen(app.get('port'), () => {
+    console.log('Server is in port', app.get('port'));
+  });
+
+}
+catch (error) {
+  app.listen(app.get('port'), () => {
+    console.log('Server is in port', app.get('port'));
+  });
+
+}

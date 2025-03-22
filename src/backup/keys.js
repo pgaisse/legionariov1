@@ -6,7 +6,7 @@ module.exports = {
         user: 'root',
         password: 'Patoch-2202',
         //database: 'db_links'
-        database: 'db_aliaga',
+        database: 'db_aliaga2',
         dateStrings:true,
     }
 

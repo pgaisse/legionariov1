@@ -1,9 +1,7 @@
-<div class="container-fluid w-100 mx-0 p-0" style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4)">
-  {{#if carouselImages}}
-
+{{#if carouselImages}}
+<div class="container-fluid w-100 mx-0 p-0" id="cat" style="box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.4)">
   <div id="carouselExampleCaptions" class="carousel slide bg-dark" data-bs-ride="carousel">
     <div class="carousel-indicators mb-2">
-
       {{#each carouselImages}}
       {{#if @index}}
       <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="{{@index}}"
@@ -39,11 +37,11 @@
         <img src="/img/carousel/{{this.picture}}" class="d-block mx-auto" alt="{{this.picture}}" />
 
         <a id="command" href="/add_carousel" class="position-absolute text-white   "
-          style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em">
+          style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em; ; z-index: 10000;">
           <i class="fa-solid fa-square-plus"></i> Agregar Imagen
         </a>
         <a id="command" href="/del?id={{id_carousel}}&name=carousel" class="position-absolute text-white   "
-          style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; ">
+          style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; ; z-index: 10000;">
           <i class="fa-solid fa-square-minus"></i> Eliminar Imagen
         </a>
         <div class="carousel-caption d-none d-md-block" style="background-color:rgba(0, 0, 0, 0.3);">
@@ -55,11 +53,11 @@
       {{/if}}
       {{#if ../user}}
       <a id="command" href="/add_carousel" class="position-absolute text-white   "
-        style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em">
+        style="right: 25%; top: 90%; background-color:rgba(0, 0, 0, 0.2); padding: 0.5em; z-index: 10000;">
         <i class="fa-solid fa-square-plus"></i> Agregar Imagen
       </a>
       <a id="command" href="/del?id={{id_carousel}}&name=carousel" class="position-absolute text-white   "
-        style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; ">
+        style="right: 15%; top: 90%; background-color: rgba(0, 0, 0, 0.2); padding: 0.5em; z-index: 10000;">
         <i class="fa-solid fa-square-minus"></i> Eliminar Imagen
       </a>
       {{/if}}
@@ -81,8 +79,12 @@
 
   </div>
   {{else}}
-  <a href="/add_carousel" class="position-absolute text-white   " style="right: 370px; top: 8%">
-    <i class="fa-solid fa-square-plus"></i> Agregar Imagen
-  </a>
-  {{/if}}
+
+{{#if user}}
+<a href="/add_carousel">
+  Agregar Imagen
+</a>
+{{/if}}
 </div>
+{{/if}}
+

@@ -48,9 +48,9 @@ helpers.resizeImage = async (file, pathRoot,fit='cover') => {
 
     const resG_w = width;
     const resG_h = height;
-    const ResT = 300;
+    const ResT = 350;
     const ResT_w = ResT;
-    const ResT_h = Math.round(ResT_w * (resG_h / resG_w));
+    const ResT_h = Math.round(ResT_w * (resG_w / resG_w));
     const ResM = 400;
     const ResM_w = ResM;
     const ResM_h = Math.round(ResM_w * (resG_w / resG_w));

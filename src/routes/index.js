@@ -302,11 +302,16 @@ router.get('/del', async (req, res) => {
 
 router.post('/update', async (req, res) => {
     const { title, text, id, table, fit } = req.body
-    console.log(req.body)
+    const [result]= await pool.query(`select type from ${table}`);
+    const type= result.type;
+    const isVideo= type===2?1:0;
+    
     const idField = table.endsWith("s") ? table.slice(0, -1) : table;
+    console.log(" isVideo : "+ isVideo+ " TYpe: "+ type)
+
     const file = req.file ? 1 : 0;
     try {
-        if (file) {
+        if (file && !isVideo) {
             const query = `select picture from ${table} where id_${idField}=${id}`;
             const [results] = await pool.query(query);
             const picture = results.picture;
@@ -314,20 +319,37 @@ router.post('/update', async (req, res) => {
             const imageName = await helpers.resizeImage(req.file, process.env.ROOT_CONTENT, fit);
             await helpers.delFile(picture, process.env.ROOT_CONTENT, 0);
             const sql = `update ${table} set title= '${title}', text='${text}', picture='${imageName}' where id_${idField}=${id}`;
-
+            console.log("1 :"+sql);
             await pool.query(sql);
 
         }
-        else {
-            const sql = `update ${table} set title= '${title}', text='${text}' where id_${idField}=${id}`;
+        else if (file && isVideo){
+
+            const query = `select picture from ${table} where id_${idField}=${id}`;
+            const [results] = await pool.query(query);
+            const picture = results.picture;
+
+            const imageName = await helpers.uploadvideo(req.file, process.env.ROOT_VIDEO);
+            await helpers.delFile(picture, process.env.ROOT_VIDEO,1);
+            const sql = `update ${table} set title= '${title}', text='${text}', picture='${imageName}' where id_${idField}=${id}`;
+            console.log("2 :"+sql);
             await pool.query(sql);
+
+        }
+        else if(!file && !isVideo) {
+            const sql = `update ${table} set title= '${title}', text='${text}' where id_${idField}=${id}`;
+            console.log("3 :"+sql);
+            await pool.query(sql);
+        }
+        else{
+            throw new Error('Opción no definida'); 
         }
 
         req.flash("success", "Datos Actualizados correctamente.");
         res.redirect(req.get('referer') || '/');
     }
     catch (error) {
-        req.flash('message', 'Hubo un error al editar el contenido.')
+        req.flash('message', 'Hubo un error al editar el contenido.'+ error)
         console.log(error)
         res.redirect(req.get('referer') || '/');
     }

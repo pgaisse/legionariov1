@@ -1,27 +1,27 @@
 {{#if data1}}
-<div class="container-fluid my-5">
-<h1>
-  Nuestras Soluciones
-</h1>
+<div class="container-fluid mt-2">
+  <h4>
+    Nuestras Soluciones
+  </h4>
   <div class="d-flex flex-wrap justify-content-between">
 
     {{#each data1}}
 
-    <div class="card  m-3"
-      style="flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; border:none; ">
-      <img class="bd-placeholder-img card-img-top modal-trigger" src="uploads/images/img_t/thumb_{{picture}}"
-        alt="{{name}}"
-        style="object-fit: cover; max-width: 400px; margin-left: auto; margin-right: auto; cursor: pointer rounded-circle"
-        data-bs-toggle="modal" data-bs-target="#imageModal" data-picture="{{picture}}" data-name="{{name}}">
+    <div class="card"
+      style="margin-top:0px; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; border:none; ">
+      <img class="bd-placeholder-img card-img-top modal-trigger rounded-top"
+        src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}"
+        style=" margin-left: auto; margin-right: auto; cursor: pointer;border:solid" data-bs-toggle="modal"
+        data-bs-target="#imageModal" data-picture="{{picture}}" data-name="{{name}}">
 
-      <div class="card-body" style="margin-left: auto; margin-right: auto; ">
+      <div class="card-body" style="">
         <p class="card-title"><b>{{title}}</b></p>
-        <p class="card-text">{{text}}</p>
+        <p class="card-text" style="height: 40px;">{{text}}</p>
         {{#if ../user}}
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#editModal" data-id="{{id_product}}" data-name="{{title}}" data-text="{{text}}"
+              data-bs-target="#editModal" data-id="{{id_product}}" data-table="products" data-name="{{title}}" data-text="{{text}}"
               data-picture="{{picture}}">Editar</button>
             <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_product}}&name=products"
               style="text-decoration: none;">Eliminar</a>
@@ -44,17 +44,18 @@
 {{#if data2}}
 <hr>
 
-<div class="container-fluid my-5">
-  <h1>
-  Videos
-</h1>
+<div class="container-fluid my-1">
+  <h4>
+    Funcionamiento en Terreno
+  </h4>
+
   <div class="d-flex flex-wrap justify-content-between">
 
     {{#each data2}}
 
-    <div class="card m-3" style="flex-grow: 1; flex-basis: calc(100% - 2rem); min-width: 250px; border:none;">
+    <div class="card m-3" style="flex-grow: 1; flex-basis: calc(33.33% - 2rem); min-width: 250px; border:none;">
 
-      <video class="bd-placeholder-img card-img-top" controls
+      <video class="bd-placeholder-img card-img-top" controls disablePictureInPicture controlsList="nodownload"
         style="margin-left: auto; margin-right: auto;">
         <source src="uploads/vid/{{picture}}" type="video/mp4">
         Your browser does not support the video tag.
@@ -67,8 +68,10 @@
         <div class="d-flex justify-content-between align-items-center">
           <div class="btn-group">
             <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#editModal" data-id="{{id_product}}" data-name="{{title}}" data-text="{{text}}"
+              data-bs-target="#editModal" data-id="{{id_video}}" data-table="videos" data-name="{{title}}" data-text="{{text}}"
               data-video="{{video}}">Editar</button>
+
+              
             <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_video}}&name=videos"
               style="text-decoration: none;">Eliminar</a>
           </div>
@@ -136,14 +139,14 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="editModalLabel">Editar Producto</h5>
+        <h5 class="modal-title" id="editModalLabel">Editar Producto </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
         <form id="editForm" action="/update" method="POST" enctype="multipart/form-data">
           <input type="hidden" id="id" name="id">
-          <input type="hidden" id="fit" name="fit" value="contain">
-          <input type="hidden" id="table" name="table" value="products">
+          <input type="hidden" id="fit" name="fit" value="cover">
+          <input type="hidden" id="table" name="table">
           <div class="mb-3">
             <label for="title" class="form-label">Nombre</label>
             <input type="text" class="form-control" id="title" name="title" required>
@@ -174,7 +177,7 @@
       </div>
       <div class="modal-body d-flex justify-content-center align-items-center" id="modalBody">
         <img id="modalImage" class="img-fluid" src="" alt=""
-          style="object-fit: contain; max-width: 100%; height: 80vh; margin-top: 10vh; margin-bottom: 10vh;">
+          style="object-fit: contain; max-width: 100%; height: 80vh; margin-bottom: 10vh;">
       </div>
     </div>
   </div>
@@ -211,6 +214,7 @@
     const name = button.getAttribute('data-name');
     const text = button.getAttribute('data-text');
     const picture = button.getAttribute('data-picture');
+    const table = button.getAttribute('data-table');
 
     // Update the modal's content
     const modalTitle = editModal.querySelector('.modal-title');
@@ -218,12 +222,14 @@
     const textInput = editModal.querySelector('#text');
     const pictureInput = editModal.querySelector('#picture');
     const idInput = editModal.querySelector('#id');
+     const tableInput = editModal.querySelector('#table');
 
     modalTitle.textContent = `Editar Producto: ${name}`;
     titleInput.value = name;
     textInput.value = text;
     pictureInput.value = ''; // Reset file input field
     idInput.value = id;
+    tableInput.value=table;
   });
 
 </script>
