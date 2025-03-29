@@ -3,6 +3,7 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const uuid = require('uuid');
+const pool = require('../database');
 
 const helpers = {};
 
@@ -203,6 +204,14 @@ helpers.checkFile = async (path) => {
   return false
 }
 
+helpers.registerVisitWithIP= async(ip)=> {
+  try {
+      const [result] = await pool.query('INSERT INTO visits (date, ip) VALUES ( NOW(), ?)', [ip]);
+      console.log('Visita registrada con IP:', ip);
+  } catch(err) {
+    console.log(err)
+  }
+}
 
 
 module.exports = helpers;

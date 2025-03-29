@@ -1,48 +1,8 @@
-{{#if data1}}
-<div class="container-fluid mt-2">
-  <h4>
-    Nuestras Soluciones
-  </h4>
-  <div class="d-flex flex-wrap justify-content-between">
 
-    {{#each data1}}
-
-    <div class="card"
-      style="margin-top:0px; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; border:none; ">
-      <img class="bd-placeholder-img card-img-top modal-trigger rounded-top"
-        src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}"
-        style=" margin-left: auto; margin-right: auto; cursor: pointer;border:solid" data-bs-toggle="modal"
-        data-bs-target="#imageModal" data-picture="{{picture}}" data-name="{{name}}">
-
-      <div class="card-body" style="">
-        <p class="card-title"><b>{{title}}</b></p>
-        <p class="card-text" style="height: 40px;">{{text}}</p>
-        {{#if ../user}}
-        <div class="d-flex justify-content-between align-items-center">
-          <div class="btn-group">
-            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
-              data-bs-target="#editModal" data-id="{{id_product}}" data-table="products" data-name="{{title}}" data-text="{{text}}"
-              data-picture="{{picture}}">Editar</button>
-            <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_product}}&name=products"
-              style="text-decoration: none;">Eliminar</a>
-          </div>
-          <!-- <small class="text-muted">9 mins</small>-->
-        </div>
-        {{/if}}
-      </div>
-    </div>
-
-    {{/each}}
-
-  </div>
-
-</div>
-{{/if}}
 
 
 
 {{#if data2}}
-<hr>
 
 <div class="container-fluid my-1">
   <h4>
@@ -83,6 +43,48 @@
     {{/each}}
 
   </div>
+</div>
+{{/if}}
+
+
+{{#if data1}}
+<div class="container-fluid mt-2">
+  <h4>
+    Nuestras Soluciones
+  </h4>
+  <div class="d-flex flex-wrap justify-content-between">
+
+    {{#each data1}}
+
+    <div class="card mx-1"
+      style="margin-top:0px; flex-grow: 1; flex-basis: calc(33.333% - 2rem); min-width: 250px; border:none; box-shadow: 10px 10px 10px rgba(0, 0, 0, 0.1); ">
+      <img class="bd-placeholder-img card-img-top modal-trigger rounded-top"
+        src="uploads/images/img_t/thumb_{{picture}}" alt="{{name}}"
+        style=" margin-left: auto; margin-right: auto; cursor: pointer;border:none" data-bs-toggle="modal"
+        data-bs-target="#imageModal" data-picture="{{picture}}" data-name="{{name}}">
+
+      <div class="card-body" style="">
+        <p class="card-title"><b>{{title}}</b></p>
+        <p class="card-text" style="height: 40px;">{{text}}</p>
+        {{#if ../user}}
+        <div class="d-flex justify-content-between align-items-center">
+          <div class="btn-group">
+            <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+              data-bs-target="#editModal" data-id="{{id_product}}" data-table="products" data-name="{{title}}" data-text="{{text}}"
+              data-picture="{{picture}}">Editar</button>
+            <a class="btn btn-sm btn-outline-secondary" href="\del?id={{id_product}}&name=products"
+              style="text-decoration: none;">Eliminar</a>
+          </div>
+          <!-- <small class="text-muted">9 mins</small>-->
+        </div>
+        {{/if}}
+      </div>
+    </div>
+
+    {{/each}}
+
+  </div>
+
 </div>
 {{/if}}
 

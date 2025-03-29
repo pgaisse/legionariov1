@@ -6,6 +6,7 @@ const helpers = require('../lib/helpers');
 const { validateProduct, validateCarousel, validateContent, validateContact } = require('../lib/validation'); // Importar validaciones
 const { isLoggedIn, isNLoggedIn, isAdmin } = require('../lib/auth');
 
+
 const { Resend } = require('resend');
 
 
@@ -22,6 +23,15 @@ const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 router.use(async (req, res, next) => {
     try {
+
+       // const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        //await helpers.registerVisitWithIP(ip);
+
+        //const [rows] = await pool.query('SELECT count(*) as count FROM visits');
+  
+        //console.log("IP Visita : "+rows.count+". "+ip)
+        //await pool.query('INSERT INTO visits (date, ip) VALUES (NOW(), ?)',[ip]);
+
         const results = await pool.query('SELECT * FROM carousel');
         res.locals.carouselImages = results;
         next();

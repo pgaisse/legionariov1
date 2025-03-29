@@ -2,55 +2,56 @@
 <link href="css/sidebar.css" rel="stylesheet" type="text/css">
 
 <div>
-    <nav id="sidebar" class="sidebar  flex-column flex-shrink-0 position-relative" style="min-height: 700px; background-color: --bg-color; color: --text-color;">
+    <nav id="sidebar" class="sidebar  flex-column flex-shrink-0 position-relative"
+        style="min-height: 700px; background-color: --bg-color; color: --text-color;">
         <button class="toggle-btn" onclick="toggleSidebar()">
             <i class="fas fa-chevron-right"></i>
         </button>
 
         <div class="hide-on-collapse pt-4">
-            <h5 class="logo-text fw-bold mb-0 text-center">Legionario</h5>
-            <span class="text-muted fs-10 p-5 ">{{user.nombre}}</span>
-            
-            
+           <img src="assets/favicon.ico" alt="" style="margin-left:30px;">
+            <span class="text-muted p-1 " style="font-size: 10px;">{{user.nombre}}</span>
+
+
         </div>
         <hr>
 
-        <div class="nav ">
+        <div class="nav fs-15">
             <a href="/" class="sidebar-link active text-decoration-none p-3">
                 <i class="fas fa-home me-3"></i>
-                <span class="hide-on-collapse">Inicio</span>
+                <span class="hide-on-collapse"></span>
             </a>
             <a href="/products" class="sidebar-link text-decoration-none p-3">
                 <i class="fa-solid fa-microchip"></i>
-                <span class="hide-on-collapse">Productos</span>
+                <span class="hide-on-collapse"></span>
             </a>
 
             <a href="/about" class="sidebar-link text-decoration-none p-3">
                 <i class="fas fa-box me-3"></i>
-                <span class="hide-on-collapse">Nosotros</span>
+                <span class="hide-on-collapse"></span>
             </a>
             <a href="/contact" class="sidebar-link text-decoration-none p-3">
                 <i class="fa fa-address-book me-3"></i>
-                <span class="hide-on-collapse">Contacto</span>
+                <span class="hide-on-collapse"></span>
             </a>
 
 
 
         </div>
-<hr>
+        <hr>
         <div class="nav ">
 
             {{#if user}}
 
             <a href="/logout" class="sidebar-link text-decoration-none p-3">
                 <i class="fa-solid fa-right-from-bracket"></i>
-                <span class="hide-on-collapse">Salir</span>
+                <span class="hide-on-collapse"></span>
             </a>
 
             {{else}}
             <a href="/signin" class="sidebar-link text-decoration-none p-3">
                 <i class="fa-solid fa-right-to-bracket"></i>
-                <span class="hide-on-collapse">Ingresar</span>
+                <span class="hide-on-collapse"></span>
             </a>
         </div>
         {{/if}}
